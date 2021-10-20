@@ -24,18 +24,31 @@ const torus = new THREE.Mesh(geometry, material)
 scene.add(torus)
 
 const pointLight = new THREE.PointLight(0xffffff)
-const pointLightHelper = new THREE.PointLightHelper(pointLight)
+//const pointLightHelper = new THREE.PointLightHelper(pointLight)
 const ambientLight = new THREE.AmbientLight(0xffffff)
 pointLight.position.set(0,0,0)
 scene.add(pointLight)
 scene.add(ambientLight)
 
-const gridHelper = new THREE.GridHelper(250, 50)
+//const gridHelper = new THREE.GridHelper(250, 50)
 
-scene.add(pointLightHelper, gridHelper)
+//scene.add(pointLightHelper)
 
 new OrbitControls(camera, renderer.domElement)
 
+
+const addStar = () => {
+    const geometry = new THREE.SphereGeometry(.25, 24, 24)
+    const material = new THREE.MeshStandardMaterial({color: 0xffffff})
+    const star= new THREE.Mesh(geometry, material)
+
+    const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100))
+
+    star.position.set(x, y, z)
+    scene.add(star)
+}
+
+Array(100).fill().forEach(addStar)
 
 function animate(){
     requestAnimationFrame(animate)
