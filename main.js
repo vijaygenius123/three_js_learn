@@ -18,9 +18,11 @@ camera.position.setZ(30)
 
 
 
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100)
-const material = new THREE.MeshStandardMaterial({ color: 0xff6347})
+const geometry = new THREE.SphereGeometry(10, 100,200)
+const planetTexture = new THREE.TextureLoader().load('planet.jpeg')
+const material = new THREE.MeshStandardMaterial({ map: planetTexture})
 const torus = new THREE.Mesh(geometry, material)
+
 scene.add(torus)
 
 const pointLight = new THREE.PointLight(0xffffff)
@@ -50,11 +52,14 @@ const addStar = () => {
 
 Array(100).fill().forEach(addStar)
 
+const spaceTexture = new THREE.TextureLoader().load('space.jpeg')
+scene.background = spaceTexture
+
 function animate(){
     requestAnimationFrame(animate)
-    torus.rotation.x += 0.01
+    //torus.rotation.x += 0.01
     torus.rotation.y += 0.005
-    torus.rotation.z += 0.01
+    //torus.rotation.z += 0.01
     renderer.render(scene, camera)
 }
 
