@@ -1,7 +1,7 @@
 import './style.css'
 
 import * as THREE from 'three'
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+//import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
 const scene = new THREE.Scene()
 
@@ -14,16 +14,16 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
 
-camera.position.setZ(30)
 
 
 
-const geometry = new THREE.SphereGeometry(10, 100,200)
+const geometry = new THREE.SphereGeometry(5, 100,200)
 const planetTexture = new THREE.TextureLoader().load('planet.jpeg')
 const material = new THREE.MeshStandardMaterial({ map: planetTexture})
-const torus = new THREE.Mesh(geometry, material)
-
-scene.add(torus)
+const planet = new THREE.Mesh(geometry, material)
+planet.position.z = 0
+planet.position.x = -10
+scene.add(planet)
 
 const pointLight = new THREE.PointLight(0xffffff)
 //const pointLightHelper = new THREE.PointLightHelper(pointLight)
@@ -36,7 +36,7 @@ scene.add(ambientLight)
 
 //scene.add(pointLightHelper)
 
-new OrbitControls(camera, renderer.domElement)
+//new OrbitControls(camera, renderer.domElement)
 
 
 const addStar = () => {
@@ -58,9 +58,26 @@ scene.background = spaceTexture
 function animate(){
     requestAnimationFrame(animate)
     //torus.rotation.x += 0.01
-    torus.rotation.y += 0.005
+    planet.rotation.y += 0.005
     //torus.rotation.z += 0.01
     renderer.render(scene, camera)
 }
 
+
+
 animate()
+
+function moveCamera(){
+    const t = document.body.getBoundingClientRect().top;
+
+    //planet.rotation.x += 0.05
+    //planet.rotation.y += 0.075
+    //planet.rotation.z += 0.05
+
+    camera.position.z = t * -0.01
+    camera.position.x = t * -0.0002
+    camera.position.y = t * -0.0002
+
+}
+
+document.body.onscroll = moveCamera
